@@ -1,0 +1,25 @@
+{
+  "name": "serverless-plugin-required-option",
+  "version": "0.0.1",
+  "description": "A serverless framework plugin to require a command line option",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo 'No tests'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Collaborne/serverless-plugin-required-option.git"
+  },
+  "keywords": [
+    "serverless",
+    "plugin",
+    "required",
+    "option"
+  ],
+  "author": "Andreas Kohn <andreas.kohn@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Collaborne/serverless-plugin-required-option/issues"
+  },
+  "homepage": "https://github.com/Collaborne/serverless-plugin-required-option#readme"
+}
