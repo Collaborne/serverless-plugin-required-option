@@ -1,5 +1,20 @@
 'use strict';
 
+function makeOldVariableResolvers(configurationVariablesSources = {}) {
+	return Object.fromEntries(
+		Object.entries(configurationVariablesSources).map(
+			([prefix, source]) => [
+				prefix,
+				async src => {
+					const [, address] = src.split(/:/);
+					const result = await source.resolve({ address });
+					return result.value;
+				},
+			],
+		),
+	)
+}
+
 /** @type {import('serverless/classes/Plugin')} */
 class RequiredOptionsServerlessPlugin {
 	/**
@@ -19,6 +34,9 @@ class RequiredOptionsServerlessPlugin {
 				},
 			},
 		}
+
+		// Provide compatibility with old variables resolution mode
+		this.variableResolvers = makeOldVariableResolvers(this.configurationVariablesSources);
 	}
 }
 
