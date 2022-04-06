@@ -1,43 +1,41 @@
 'use strict';
 
-function makeOldVariableResolvers(configurationVariablesSources = {}) {
-	return Object.fromEntries(
-		Object.entries(configurationVariablesSources).map(
-			([prefix, source]) => [
-				prefix,
-				async src => {
-					const [, address] = src.split(/:/);
-					const result = await source.resolve({ address });
-					return result.value;
-				},
-			],
-		),
-	)
+function formatParameters(parameters) {
+  if (!parameters) {
+    return null;
+  }
+
+  const result = {};
+  Object.values(parameters).map((param) => {
+    const [key, value] = param.split("=");
+    result[key] = value;
+    return null;
+  });
+  return result;
 }
 
 /** @type {import('serverless/classes/Plugin')} */
 class RequiredOptionsServerlessPlugin {
-	/**
-	 *
-	 * @param {import('serverless')} _serverless
-	 * @param {import('serverless').Options} options
-	 */
-	 constructor(_serverless, options) {
-		this.configurationVariablesSources = {
-			requiredOpt: {
-				async resolve({ address }) {
-					const value = options[address];
-					if (value) {
-						return { value };
-					}
-					throw new Error(`Required option "${address}" not provided`);
-				},
-			},
-		}
+  /**
+   *
+   * @param {import('serverless')} _serverless
+   * @param {import('serverless').Options} options
+   */
+  constructor(_serverless, options) {
+    this.configurationVariablesSources = {
+      requiredOpt: {
+        async resolve({ address }) {
+          const parameters = formatParameters(options.param);
 
-		// Provide compatibility with old variables resolution mode
-		this.variableResolvers = makeOldVariableResolvers(this.configurationVariablesSources);
-	}
+          const value = parameters[address];
+          if (value) {
+            return { value };
+          }
+          throw new Error(`Required option "${address}" not provided`);
+        },
+      },
+    };
+  }
 }
 
 module.exports = RequiredOptionsServerlessPlugin;
