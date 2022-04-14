@@ -1,6 +1,6 @@
 {
   "name": "serverless-plugin-required-option",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "A serverless framework plugin to require a command line option",
   "main": "index.js",
   "scripts": {
