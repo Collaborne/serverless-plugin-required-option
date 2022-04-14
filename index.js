@@ -27,7 +27,7 @@ class RequiredOptionsServerlessPlugin {
         async resolve({ address }) {
           const parameters = formatParameters(options.param);
 
-          const value = parameters[address];
+          const value = options[address] ?? parameters[address];
           if (value) {
             return { value };
           }
